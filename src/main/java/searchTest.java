@@ -23,14 +23,13 @@ public class searchTest {
         driver = new ChromeDriver();
         np = new Anotepad(driver);
     }
-    /*@After
+    @After
     public void closeBrowser(){
         driver.quit();
-    }*/
+    }
     @Test
     public void searchingTest(){
         np.openLoginPage().login("2@e.ee","2");
-        //np.openHomePage().addTitle(validSearch).saveNote();
         np.addSearchQuery(validSearch).startSearch();
         Assert.assertEquals(np.nothingFound(), np.searchNote());
         np.openHomePage();
