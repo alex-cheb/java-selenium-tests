@@ -17,27 +17,41 @@ public class searchTest {
     String injectionSearch = "'><a>";
     //Existing Note
     String existingNote = "title";
+    //existing user data
+    String validEmail = "2@e.ee";
+    String validPass = "2";
     @Before
     public void openBrowser() {
         WebDriverManager.chromedriver().setup();
         driver = new ChromeDriver();
         np = new Anotepad(driver);
     }
+
     @After
     public void closeBrowser(){
         driver.quit();
     }
+
     @Test
     public void searchingTest(){
-        np.openLoginPage().login("2@e.ee","2");
-        np.addSearchQuery(validSearch).startSearch();
+        //logging in to be able to use search instantly
+        np.openLoginPage().login(validEmail, validPass);
+        //creating note
+        np.openHomePage().addTitle(existingNote).setContent(np.existingNoteConten()).saveNote();
+        //search queries block
+        np.addSearchQuery(validSearch).startSearch();//non existing note
+        System.out.println(validSearch);
         Assert.assertEquals(np.nothingFound(), np.searchNote());
         np.openHomePage();
-        np.addSearchQuery(injectionSearch).startSearch();
+        np.addSearchQuery(injectionSearch).startSearch();//application returns error
+        System.out.println(injectionSearch);
         Assert.assertEquals(np.errorMsg(), np.errorPage());
         np.openHomePage();
-        np.addSearchQuery(existingNote).startSearch();
+        np.addSearchQuery(existingNote).startSearch();//search for existing note and check its content
+        System.out.println(existingNote);
         Assert.assertEquals(np.existingNoteConten(), np.searchNote());
+        np.goToNote().deleteNote();//delete existing note
+
 
 
     }
