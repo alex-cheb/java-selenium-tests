@@ -1,5 +1,6 @@
 package objects;
-import org.openqa.selenium.Alert;
+
+import io.qameta.allure.Step;
 import org.openqa.selenium.By;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.WebElement;
@@ -25,7 +26,7 @@ public class Anotepad {
 
     private static final By submit = By.id("submit");
     private static final By delButton = By.id("btnDeleteAccount");
-    private static final By saveTitleButton = By.xpath("//*[@id='btnSaveNote']");
+    private static final By saveTitleButton = By.id("btnSaveNote");
     private static final By searchButton = By.xpath("//button[@id = 'search']");
     private static final By delNote = By.className("delete");
 
@@ -37,15 +38,53 @@ public class Anotepad {
         //this.wait = WebDriverWait(this.driver, 5);
 
     }
+    @Step
+    public Anotepad openLoginPage(){
+        System.out.println("Go to login/register page");
+        driver.get("https://anotepad.com/create_account");
+        return this;
+    }
+    @Step
+    public Anotepad  login(String userMail, String userPass){
+        driver.findElement(loginEmail).sendKeys(userMail);
+        System.out.println(driver.findElement(loginEmail));
+        List<WebElement> passwordField = (ArrayList) driver.findElements(passw);
+        System.out.println(passwordField.get(1));
+        passwordField.get(1).sendKeys(userPass);
+        List<WebElement> buttons = (ArrayList) driver.findElements(submit);
+        buttons.get(1).click();
+        this.wait = new WebDriverWait(driver, 5);
+
+
+        return this;
+
+    }
+
+    @Step
     public Anotepad openHomePage(){
         System.out.println("Go to home page");
         driver.get("https://anotepad.com/");
         return this;
     }
+    @Step
+    public Anotepad addTitle(String title){
+        System.out.println(title + " Adding title");
+        driver.findElement(noteTitle).sendKeys(title);
+        return this;
+    }
+    @Step
+    public Anotepad setContent(String content){
+        System.out.println(content);
+        driver.findElement(editContent).clear();
+        driver.findElement(editContent).sendKeys(content);
+        return this;
 
-    public Anotepad openLoginPage(){
-        System.out.println("Go to login/register page");
-        driver.get("https://anotepad.com/create_account");
+    }
+    @Step
+    public Anotepad saveNote(){
+        System.out.println("Save note");
+        driver.findElement(saveTitleButton).click();
+        this.wait = new WebDriverWait(driver, 5);
         return this;
     }
 
@@ -57,33 +96,14 @@ public class Anotepad {
         return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut";
 
     }
-
-
-    public Anotepad addTitle(String title){
-        System.out.println(title + " Adding title");
-        driver.findElement(noteTitle).sendKeys(title);
-        return this;
-    }
-    public Anotepad setContent(String content){
-        System.out.println(content);
-        driver.findElement(editContent).clear();
-        driver.findElement(editContent).sendKeys(content);
-        return this;
-
-    }
-
-
-    public Anotepad saveNote(){
-        System.out.println("Save note");
-        driver.findElement(saveTitleButton).click();
-        return this;
-    }
+   @Step
     public Anotepad addSearchQuery(String query){
         System.out.println(query + "Fill in search");
         driver.findElement(searchLine).clear();
         driver.findElement(searchLine).sendKeys(query);
         return this;
     }
+    @Step
     public Anotepad startSearch(){
         //System.out.println("Go! Search");
         driver.findElement(searchButton).click();
@@ -94,11 +114,12 @@ public class Anotepad {
         //returns note content of the found note in preview
         return driver.findElement(noteSearch).getText();
     }
-
+    @Step
     public Anotepad goToNote(){
         driver.findElement(previewTitle).click();
         return this;
     }
+    @Step
     public Anotepad deleteNote(){
         driver.findElement(delNote).click();
         wait.until(ExpectedConditions.alertIsPresent());
@@ -108,28 +129,34 @@ public class Anotepad {
         return this;
     }
 
+    public String nothingFound(){
+        return "No result found. Please try again.";
+    }
+
+    public String errorMsg(){
+        return "An error occurred while processing your request. Please contact Support@Anotepad.com for help.";
+    }
+ //Used in create account test case
     public Anotepad enterUserName(String name){
-        //used in create account
         System.out.println("Fill in Username");
         driver.findElement(email).sendKeys(name);
         return this;
     }
 
     public Anotepad enterPassword(String pwd){
-        //used in create account
         System.out.println("Fill in password");
         driver.findElement(passw).sendKeys(pwd);
         return this;
     }
 
     public  Anotepad createUser(){
-        //used in create account
         System.out.println("Submit create user");
         driver.findElement(submit).click();
         return this;
     }
+
+
     public Anotepad goToSettings(){
-        //used in creqate account
         System.out.println("Move to settings");
         driver.get("https://anotepad.com/settings");
         return this;
@@ -141,29 +168,7 @@ public class Anotepad {
         return driver.findElement(settingsEmail).getAttribute("value");
 
             }
-    public Anotepad  login(String userMail, String userPass){
-        driver.findElement(loginEmail).sendKeys(userMail);
-        System.out.println(driver.findElement(loginEmail));
-        List<WebElement> passwordField = (ArrayList) driver.findElements(passw);
-        System.out.println(passwordField.get(1));
-        passwordField.get(1).sendKeys(userPass);
-        List<WebElement> buttons = (ArrayList) driver.findElements(submit);
-        buttons.get(1).click();
-        this.wait = new WebDriverWait(driver, 15);
-
-
-        return this;
-
-    }
-    public String nothingFound(){
-        return "No result found. Please try again.";
-    }
-
-    public String errorMsg(){
-        return "An error occurred while processing your request. Please contact Support@Anotepad.com for help.";
-    }
-
-    public  Anotepad deleteUser(){
+            public  Anotepad deleteUser(){
         System.out.println("delete user method called");
         driver.findElement(delUser).click();
         wait.until(ExpectedConditions.elementToBeClickable(By.id("btnDeleteAccount")));
@@ -172,4 +177,10 @@ public class Anotepad {
         return this;
 
     }
+
+
+
+
+
+
 }
