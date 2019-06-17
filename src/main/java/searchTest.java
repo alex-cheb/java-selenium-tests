@@ -4,6 +4,7 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
 
@@ -33,11 +34,13 @@ public class searchTest {
     }
 
     @Test
+    @DisplayName("GL-324:F-210: Search")
     public void searchingTest(){
         //logging in to be able to use search instantly
         np.openLoginPage().login(validEmail, validPass);
         //creating note
-        np.openHomePage().addTitle(existingNote).setContent(np.existingNoteConten()).saveNote();
+        np.addTitle(existingNote).setContent(np.existingNoteConten());
+        np.saveNote();
         //search queries block
         np.addSearchQuery(validSearch).startSearch();//non existing note
         System.out.println(validSearch);
