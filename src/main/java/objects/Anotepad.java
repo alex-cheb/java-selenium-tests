@@ -13,19 +13,21 @@ public class Anotepad {
 
     private static final By email = By.id("registerEmail");
     private static final By passw = By.id("password");
-    private static final By submit = By.id("submit");
     private static final By delUser = By.id("confirmDeleteAccount");
-    private static final By delButton = By.id("btnDeleteAccount");
     private static final By settingsEmail = By.id("email");
     private static final By noteTitle = By.id("edit_title");
-    private static final By saveTitleButton = By.xpath("//*[@id='btnSaveNote']");
     private static final By searchLine = By.xpath("//input[@id = 'search']");
-    private static final By searchButton = By.xpath("//button[@id = 'search']");
     private static final By loginEmail = By.id("loginEmail");
     private static final By noteSearch = By.className("note_content");
     private static final By errorDiv = By.xpath("//body/div");
+    private static final By editContent = By.id("edit_textarea");
+    private static final By previewTitle = By.xpath("//h2[@class = 'note_title']/a");
 
-
+    private static final By submit = By.id("submit");
+    private static final By delButton = By.id("btnDeleteAccount");
+    private static final By saveTitleButton = By.xpath("//*[@id='btnSaveNote']");
+    private static final By searchButton = By.xpath("//button[@id = 'search']");
+    private static final By delNote = By.className("delete");
 
     private WebDriver driver;
     private WebDriverWait wait;
@@ -35,9 +37,10 @@ public class Anotepad {
         //this.wait = WebDriverWait(this.driver, 5);
 
     }
-
-    public String errorPage(){
-        return driver.findElement(errorDiv).getText();
+    public Anotepad openHomePage(){
+        System.out.println("Go to home page");
+        driver.get("https://anotepad.com/");
+        return this;
     }
 
     public Anotepad openLoginPage(){
@@ -45,62 +48,95 @@ public class Anotepad {
         driver.get("https://anotepad.com/create_account");
         return this;
     }
-    public Anotepad openHomePage(){
-        System.out.println("Moving to home page");
-        driver.get("https://anotepad.com/");
+
+    public String errorPage(){
+        return driver.findElement(errorDiv).getText();
+    }
+
+    public String existingNoteConten(){
+        return "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut";
+
+    }
+
+
+    public Anotepad addTitle(String title){
+        System.out.println(title + " Adding title");
+        driver.findElement(noteTitle).sendKeys(title);
         return this;
     }
-    public Anotepad addTitle(String title){
-        System.out.println("Adding title");
-        System.out.println(title);
-        driver.findElement(noteTitle).sendKeys(title);
+    public Anotepad setContent(String content){
+        System.out.println(content);
+        driver.findElement(editContent).clear();
+        driver.findElement(editContent).sendKeys(content);
         return this;
 
     }
+
+
+    public Anotepad saveNote(){
+        System.out.println("Save note");
+        driver.findElement(saveTitleButton).click();
+        return this;
+    }
     public Anotepad addSearchQuery(String query){
-        System.out.println(query);
-        System.out.println("Fill in search");
+        System.out.println(query + "Fill in search");
+        driver.findElement(searchLine).clear();
         driver.findElement(searchLine).sendKeys(query);
         return this;
     }
     public Anotepad startSearch(){
-        System.out.println("Go! Search");
+        //System.out.println("Go! Search");
         driver.findElement(searchButton).click();
         return this;
     }
-    public Anotepad saveNote(){
-        System.out.println("Save note");
-        driver.findElement(saveTitleButton).click();
 
-        return this;
-    }
     public String searchNote() {
+        //returns note content of the found note in preview
         return driver.findElement(noteSearch).getText();
     }
+
+    public Anotepad goToNote(){
+        driver.findElement(previewTitle).click();
+        return this;
+    }
+    public Anotepad deleteNote(){
+        driver.findElement(delNote).click();
+        wait.until(ExpectedConditions.alertIsPresent());
+        System.out.println("Alert about note delete");
+        driver.switchTo().alert().accept();
+        this.wait = new WebDriverWait(driver, 15);
+        return this;
+    }
+
     public Anotepad enterUserName(String name){
+        //used in create account
         System.out.println("Fill in Username");
         driver.findElement(email).sendKeys(name);
         return this;
-
     }
 
     public Anotepad enterPassword(String pwd){
+        //used in create account
         System.out.println("Fill in password");
         driver.findElement(passw).sendKeys(pwd);
         return this;
-
     }
+
     public  Anotepad createUser(){
+        //used in create account
         System.out.println("Submit create user");
         driver.findElement(submit).click();
         return this;
     }
     public Anotepad goToSettings(){
+        //used in creqate account
         System.out.println("Move to settings");
         driver.get("https://anotepad.com/settings");
         return this;
     }
+
     public String getSettingsEmail(){
+        //used in createaccount
         System.out.println("get settings email started");
         return driver.findElement(settingsEmail).getAttribute("value");
 
