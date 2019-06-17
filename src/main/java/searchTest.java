@@ -18,6 +18,7 @@ public class searchTest {
     String injectionSearch = "'><a>";
     //Existing Note
     String existingNote = "title";
+    String existingNoteSearch = "Title";
     //existing user data
     String validEmail = "2@e.ee";
     String validPass = "2";
@@ -50,8 +51,10 @@ public class searchTest {
         System.out.println(injectionSearch);
         Assert.assertEquals(np.errorMsg(), np.errorPage());
         np.openHomePage();
-        np.addSearchQuery(existingNote).startSearch();//search for existing note and check its content
-        System.out.println(existingNote);
+        np.addSearchQuery(existingNoteSearch).startSearch();//search for existing note and check its content
+        System.out.println(existingNoteSearch);
+        Assert.assertEquals(np.existingNoteConten(), np.searchNote());
+        np.addSearchQuery("Lorem").startSearch();
         Assert.assertEquals(np.existingNoteConten(), np.searchNote());
         np.goToNote().deleteNote();//delete existing note
 
