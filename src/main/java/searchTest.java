@@ -46,10 +46,7 @@ public class searchTest {
         np.addSearchQuery(validSearch).startSearch();//non existing note
         System.out.println(validSearch);
         Assert.assertEquals(np.nothingFound(), np.searchNote());
-        np.openHomePage();
-        np.addSearchQuery(injectionSearch).startSearch();//application returns error
-        System.out.println(injectionSearch);
-        Assert.assertEquals(np.errorMsg(), np.errorPage());
+        
         np.openHomePage();
         np.addSearchQuery(existingNoteSearch).startSearch();//search for existing note and check its content
         System.out.println(existingNoteSearch);
@@ -57,6 +54,12 @@ public class searchTest {
         np.addSearchQuery("Lorem").startSearch();
         Assert.assertEquals(np.existingNoteConten(), np.searchNote());
         np.goToNote().deleteNote();//delete existing note
+        
+        //crash
+        np.openHomePage();
+        np.addSearchQuery(injectionSearch).startSearch();//application returns error
+        System.out.println(injectionSearch);
+        Assert.assertEquals(np.nothingFound(), np.searchNote());
 
 
 
