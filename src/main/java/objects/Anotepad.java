@@ -47,9 +47,9 @@ public class Anotepad {
     @Step
     public Anotepad  login(String userMail, String userPass){
         driver.findElement(loginEmail).sendKeys(userMail);
-        System.out.println(driver.findElement(loginEmail));
+        //System.out.println(driver.findElement(loginEmail));
         List<WebElement> passwordField = (ArrayList) driver.findElements(passw);
-        System.out.println(passwordField.get(1));
+       // System.out.println(passwordField.get(1));
         passwordField.get(1).sendKeys(userPass);
         List<WebElement> buttons = (ArrayList) driver.findElements(submit);
         buttons.get(1).click();
