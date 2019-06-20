@@ -34,17 +34,17 @@ public class TestingTheSearch {
         //driver = new FirefoxDriver();
         np = new Anotepad(driver);
         np.openLoginPage().login(registeredUserEmail, registeredUserPassword);
-        //np.addTitle(np.existingNoteTitle).setContent(np.existingNoteContent).saveNote();
+        np.addTitle(np.existingNoteTitle).setContent(np.existingNoteContent).saveNote();
     }
     
-    public void logIn(){
+    /*public void logIn(){
         np.openLoginPage().login(registeredUserEmail, registeredUserPassword);
     }
 
     public void createNote(){
         np.addTitle(np.existingNoteTitle).setContent(np.existingNoteContent).saveNote();
     }
-
+*/
     @After
     public void closeBrowser(){
         driver.quit();
