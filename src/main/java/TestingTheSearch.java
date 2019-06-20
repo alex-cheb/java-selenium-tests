@@ -36,14 +36,14 @@ public class TestingTheSearch {
         np.openLoginPage().login(registeredUserEmail, registeredUserPassword);
         //np.addTitle(np.existingNoteTitle).setContent(np.existingNoteContent).saveNote();
     }
-    /*
+    
     public void logIn(){
         np.openLoginPage().login(registeredUserEmail, registeredUserPassword);
     }
 
     public void createNote(){
         np.addTitle(np.existingNoteTitle).setContent(np.existingNoteContent).saveNote();
-    }*/
+    }
 
     @After
     public void closeBrowser(){
