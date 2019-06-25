@@ -4,33 +4,37 @@ import org.junit.After;
 import org.junit.Assert;
 import org.junit.Before;
 import org.junit.Test;
+import org.junit.jupiter.api.DisplayName;
 import org.openqa.selenium.WebDriver;
 import org.openqa.selenium.chrome.ChromeDriver;
+import org.openqa.selenium.firefox.FirefoxDriver;
 
-public class CreateUserPositiveTest {
+import static objects.Anotepad.*;
+
+public class LoginPositiveTest {
+
     WebDriver driver;
     Anotepad np;
-    @Before
-    public void openBrowser() {
-        WebDriverManager.chromedriver().setup();
-        driver = new ChromeDriver();
-        np = new Anotepad(driver);
 
+
+    @Before
+    public void openBrowser(){
+        WebDriverManager.chromedriver().setup();
+        //WebDriverManager.firefoxdriver().setup();
+        driver = new ChromeDriver();
+        //driver = new FirefoxDriver();
+        np = new Anotepad(driver);
     }
     @After
-    public void closeBrowser(){
+    public void closeBrowser()
+    {
         driver.quit();
+
     }
     @Test
-    public void creatingNewUser(){
-        np.openLoginPage().enterCredentials(np.newUserEmail, np.newUserPassword).creatingUser();
+    public void logIn(){
+        np.openLoginPage().login(registeredUserValidMail, registeredUserValidPassword);
         Assert.assertEquals("Settings", np.settingsBtn());
-        np.deleteUser();
-
 
     }
-
-
-
-
 }
