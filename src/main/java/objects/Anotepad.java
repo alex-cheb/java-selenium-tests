@@ -30,12 +30,15 @@ public class Anotepad {
     private static final By searchButton = By.xpath("//button[@id = 'search']");
     private static final By delNote = By.className("delete");
     private static final By settingsButton = By.xpath("//a[@href = '/settings']");
-
+    private static final By headerSettings = By.linkText("Settings");
+    private static final By headerLogout = By.linkText("Logout");
 
     public static final String registeredUserEmail = "2@e.ee";
     public static final String registeredUserPassword = "2";
     public static final String newUserEmail = "3@r.com";
     public static final String newUserPassword = "VeryStrongPass11";
+    public static final String registeredUserValidPassword = "pa$$worD";
+    public static final String registeredUserValidMail = "validmail@i.ua";
 
 
     public static final String nothingFound = "No result found. Please try again.";
@@ -153,8 +156,9 @@ public class Anotepad {
         return this;
 
     }
-    public String settingsB(){
-       return driver.findElement(settingsButton).getText();
+
+    public String settingsBtn(){
+        return driver.findElement(settingsButton).getText();
     }
 
 }
